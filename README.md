@@ -1,7 +1,6 @@
-# kubernetes-cluster-with-ansible
-Building Kubernetes(k8s) cluster on Ubuntu server with Ansible
+## Building Kubernetes(k8s) cluster on Ubuntu server with Ansible
 
-Define hosts for clusters to set up
+Define inventory in __hosts__ file for clusters
 ```
 [masters]
 master ansible_host=192.168.0.7 ansible_user=vagrant
