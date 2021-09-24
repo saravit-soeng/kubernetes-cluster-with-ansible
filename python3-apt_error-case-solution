@@ -1,0 +1,3 @@
+- cd /usr/lib/python3/dist-packages 
+- sudo ln -s apt_inst.cpython-35m-x86_64-linux-gnu.so apt_inst.so
+- sudo ln -s apt_pkg.cpython-35m-x86_64-linux-gnu.so apt_pkg.so

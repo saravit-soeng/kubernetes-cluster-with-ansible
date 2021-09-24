@@ -1,0 +1,11 @@
+- hosts: all
+  become: yes
+  tasks:
+    - name: add node ip to the kubeadm config
+      shell: sed -i '/^ExecStart=\// s/$/ --node-ip={{hostvars[inventory_hostname]["ansible_host"]}}/' /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+
+    - name: daemon reload
+      shell: systemctl daemon-reload
+
+    - name: restart kubelet
+      shell: systemctl restart kubelet

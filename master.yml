@@ -1,0 +1,29 @@
+- hosts: masters
+  become: yes
+  tasks:
+    - name: turn off swap
+      shell: swapoff -a && sed -i '/ swap / s/^/#/' /etc/fstab
+
+    - name: initial the cluster
+      shell: kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=192.168.0.7
+
+    - name: create .kube directory
+      become: yes
+      become_user: ansible
+      file:
+        path: $HOME/.kube
+        state: directory
+        mode: 0755
+
+    - name: copy admin.conf to user's kube config
+      copy:
+        src: /etc/kubernetes/admin.conf
+        dest: /home/ansible/.kube/config
+        remote_src: yes
+        owner: ansible
+
+    - name: install pod network
+      become: yes
+      become_user: ansible
+      shell: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
